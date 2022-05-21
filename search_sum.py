@@ -1,4 +1,5 @@
 #Надо бы проверить полным перебором
+from collections import defaultdict
 
 
 def search_sum(values: list, n: int, n_sum: int):
@@ -12,14 +13,18 @@ def search_sum(values: list, n: int, n_sum: int):
                     return True
     elif n == 3:
         for i1, v1 in enumerate(values):
-            for i2, v2 in enumerate(values[i1 + 1:]):
+            for i2, v2 in enumerate(values[i1 + 1:], start=i1 + 1):
                 for v3 in values[i2 + 1:]:
                     v = v1 + v2 + v3
                     if v == n_sum:
                         return True
     else:
         n_bits = [int(v) for v in reversed(bin(n)[2:])]
-        b_sum = {v: [set([i])] for i, v in enumerate(values)}
+        b_sum = defaultdict(list)
+        for i, v in enumerate(values):
+            b_sum[v].append({i})
+
+
         sum_sets = [b_sum] if n_bits[0] else []
 
         for b in n_bits[1:-1]:
@@ -65,33 +70,44 @@ def merge_gen(set1, set2):
                 yield v, ii
 
 
-values_for_test = [2, 3, 4, 6, 7, 12]
+if __name__ == '__main__':
+    values_for_test = [2, 3, 4, 6, 7, 12]
 
-values = values_for_test + [i for i in range(max(values_for_test), 10)]
-n = len(values_for_test)
-n_sum = sum(values_for_test)
+    values = values_for_test + [i for i in range(max(values_for_test), 10)]
+    n = len(values_for_test)
+    n_sum = sum(values_for_test)
 
-assert search_sum(values, n, n_sum) is True
+    assert search_sum(values, n, n_sum) is True
 
-values = [i for i in range(0, 100)]
-n = 2
-n_sum = 198
+    values = [i for i in range(0, 100)]
+    n = 2
+    n_sum = 198
 
-assert search_sum(values, n, n_sum) is False
+    assert search_sum(values, n, n_sum) is False
 
-values = [1, 2, 3, 7]
-n = 3
-n_sum = 9
+    values = [1, 2, 3, 7]
+    n = 3
+    n_sum = 9
 
-assert search_sum(values, n, n_sum) is False
+    assert search_sum(values, n, n_sum) is False
 
-values = [1, 7, 2, 3, 7]
-n = 2
-n_sum = 14
-assert search_sum(values, n, n_sum) is True
+    values = [1, 7, 2, 3, 7]
+    n = 2
+    n_sum = 14
+    assert search_sum(values, n, n_sum) is True
 
 
-values = [0, 7, 1, 11, 2, 3, 14]
-n = 4
-n_sum = 6
-assert search_sum(values, n, n_sum) is True
+    values = [0, 7, 1, 11, 2, 3, 14]
+    n = 4
+    n_sum = 6
+    assert search_sum(values, n, n_sum) is True
+
+    values = [6, 1, 8]
+    n = 3
+    n_sum = 22
+    assert search_sum(values, n, n_sum) is False
+
+    values = [0, 1, 0, 1]
+    n = 4
+    n_sum = 2
+    assert search_sum(values, n, n_sum) is True
