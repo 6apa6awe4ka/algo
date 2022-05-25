@@ -12,11 +12,15 @@ def ckn(values: list, k):
             res.append(v)
             yield res
 
-        for i0 in range(k - 2, -1, -1):
-            if ii[i0] <= n - k + i0:
-                break
+        i0 = k - 2
 
-        if i0 == 0 and ii[i0] > n - k:
+        while i0 >= 0:
+            if ii[i0] > n - k + i0:
+                i0 -= 1
+                continue
+            break
+
+        if i0 < 0:
             break
 
         index = ii[i0]
