@@ -10,14 +10,19 @@ def combinations(lists):
             res.append(v)
             yield res
 
-        for i in range(n - 2, -1, -1):
-            if ii[i] < lii[i]:
-                ii[i] += 1
-                break
-            ii[i] = 0
+        i = n - 2
 
-        if i == 0 and ii[i] == 0:
+        while i >= 0:
+            if ii[i] >= lii[i]:
+                ii[i] = 0
+                i -= 1
+                continue
             break
+
+        if i < 0:
+            break
+
+        ii[i] += 1
 
 
 if __name__ == '__main__':
