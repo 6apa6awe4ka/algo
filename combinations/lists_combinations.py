@@ -1,11 +1,11 @@
 def combinations(lists):
     n = len(lists)
-    lii = [len(l) - 1 for l in lists[1:]]
+    lii = [len(l) - 1 for l in lists[:n - 1]]
     ii = [0 for i in range(0, n - 1)]
 
     while True:
         vv = [lists[i][ii[i]] for i in range(0, n - 1)]
-        for v in lists[0]:
+        for v in lists[n - 1]:
             res = vv.copy()
             res.append(v)
             yield res
